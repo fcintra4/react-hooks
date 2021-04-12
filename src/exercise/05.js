@@ -21,8 +21,8 @@ function Tilt({children}) {
 
   // useEffect() é executado sempre após um componente ser atualizado na tela
   React.useEffect(() => {
-    const tiltNode = tiltRef.current
-    //const tiltNode = document.getElementById('tiltRoot')
+    //const tiltNode = tiltRef.current
+    const tiltNode = document.getElementById('tiltRoot')
     // Chamada à bilbioteca VanillaTilt
     VanillaTilt.init(tiltNode, {
         max: 25,

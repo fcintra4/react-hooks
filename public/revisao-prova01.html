@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-bt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercício de Fixação 3</title>
+  <style>
+    label {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@17.0.0/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.12.4/babel.js"></script>
+
+  <script type="text/babel">
+
+    function Saudacao({handleChange, value}) {
+      return (
+        <input onChange={handleChange} value={value} />
+      )
+    }
+
+    function Nome({handleChange, value}) {
+      return (
+        <input onChange={handleChange} value={value} />
+      )      
+    }
+
+    function Form() {
+
+      // Variáveis de estado foram trazidas ("elevadas") dos filhos para o pai
+
+      // Deste jeito, sempre que houver uma atualização do componente, as variáveis
+      // de estado serão reinicializadas para ''
+      //const [sauda, setSauda] = React.useState('')
+      //const [nome, setNome] = React.useState('')
+
+      // Usando lazy initializers -> é executado apenas uma vez, na fase mount
+      // Para usar lazy initializers, basta passar uma função como valor inicial
+      // do useState()
+      const [sauda, setSauda] = React.useState(() => window.localStorage.getItem('sauda'))
+      const [nome, setNome] = React.useState(() => window.localStorage.getItem('nome'))
+
+      React.useEffect(() => {
+        // Armazena em cookie os valores da saudação e do nome
+        window.localStorage.setItem('sauda', sauda)
+        window.localStorage.setItem('nome', nome)
+      }, [sauda, nome])
+
+      return (
+
+        <div>
+          <Saudacao value={sauda} handleChange={e => setSauda(e.target.value)}/>
+          <Nome value={nome} handleChange={e => setNome(e.target.value)}/>
+          <div>{sauda}, {nome}!</div>
+        </div>
+      )
+    }
+
+    ReactDOM.render(<Form />, document.getElementById('root'))
+
+  </script>
+
+</body>
+
+</html>
